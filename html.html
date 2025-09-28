@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Her Dream Garden ✨</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg,#ffeef8 0%,#f0e6ff 25%,#e6f3ff 50%,#fff0e6 75%,#ffe6f0 100%);
+      min-height:100vh; position:relative; overflow-x:hidden;
+    }
+    .flower{position:absolute;font-size:24px;animation:float 15s infinite linear;opacity:.3;pointer-events:none;z-index:1}
+    @keyframes float{
+      0%{transform:translateY(100vh) rotate(0deg);opacity:0}
+      10%,90%{opacity:.7}
+      100%{transform:translateY(-100px) rotate(360deg);opacity:0}
+    }
+    .flower:nth-child(1){left:10%;animation-delay:0s}.flower:nth-child(2){left:20%;animation-delay:2s}
+    .flower:nth-child(3){left:30%;animation-delay:4s}.flower:nth-child(4){left:40%;animation-delay:6s}
+    .flower:nth-child(5){left:50%;animation-delay:8s}.flower:nth-child(6){left:60%;animation-delay:10s}
+    .flower:nth-child(7){left:70%;animation-delay:12s}.flower:nth-child(8){left:80%;animation-delay:14s}
+    .flower:nth-child(9){left:90%;animation-delay:16s}
+
+    .container{max-width:800px;margin:0 auto;padding:20px;position:relative;z-index:10}
+    .main-card{
+      background:rgba(255,255,255,.95); backdrop-filter:blur(10px); border-radius:25px;
+      box-shadow:0 20px 40px rgba(0,0,0,.1); padding:40px; border:1px solid rgba(255,255,255,.3);
+      position:relative; overflow:hidden;
+    }
+    .main-card::before{
+      content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+      background: radial-gradient(circle, rgba(255,182,193,.1) 0%, transparent 70%);
+      animation:rotate 20s linear infinite; pointer-events:none;
+    }
+    @keyframes rotate{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+
+    .header{text-align:center;margin-bottom:30px;position:relative;z-index:2}
+    .header h1{
+      font-size:2.5em; background:linear-gradient(135deg,#ff6b9d,#c44569,#6c5ce7,#00b894);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      margin-bottom:10px; font-weight:700;
+    }
+    .header p{color:#7d5ba6;font-size:1.1em;margin-bottom:20px}
+
+    .progress-section{background:linear-gradient(135deg,#ffd1dc,#e6e6fa);border-radius:20px;padding:20px;margin-bottom:30px;border:2px solid rgba(255,182,193,.3)}
+    .progress-text{font-size:1.3em;font-weight:600;color:#6c5ce7;margin-bottom:15px}
+    .progress-bar-container{width:100%;height:12px;background:rgba(255,255,255,.7);border-radius:10px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.1)}
+    .progress-bar{height:100%;background:linear-gradient(90deg,#ff6b9d,#c44569,#6c5ce7);border-radius:10px;transition:width .8s ease;box-shadow:0 2px 8px rgba(255,107,157,.4)}
+
+    .add-section{background:linear-gradient(135deg,#f8f9ff,#fff0f5);border-radius:20px;padding:25px;margin-bottom:30px;border:2px dashed rgba(255,182,193,.5)}
+    .category-buttons{display:flex;gap:15px;margin-bottom:20px;justify-content:center;flex-wrap:wrap}
+    .category-btn{padding:12px 24px;border:none;border-radius:25px;font-weight:600;cursor:pointer;transition:.3s;font-size:14px;display:flex;align-items:center;gap:8px}
+    .category-btn.place{background:linear-gradient(135deg,#74b9ff,#0984e3);color:#fff}
+    .category-btn.experience{background:linear-gradient(135deg,#fd79a8,#e84393);color:#fff}
+    .category-btn:not(.active){background:rgba(255,255,255,.8);color:#666}
+    .category-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.15)}
+
+    .input-section{display:flex;gap:15px;align-items:center}
+    .input-field{flex:1;padding:15px 20px;border:2px solid rgba(255,182,193,.3);border-radius:25px;font-size:16px;background:rgba(255,255,255,.9);transition:.3s}
+    .input-field:focus{outline:none;border-color:#ff6b9d;box-shadow:0 0 0 4px rgba(255,107,157,.1)}
+    .add-btn{padding:15px 25px;background:linear-gradient(135deg,#00b894,#00cec9);color:#fff;border:none;border-radius:25px;font-size:16px;font-weight:600;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:8px}
+    .add-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,184,148,.3)}
+
+    .filters{display:flex;gap:10px;margin-bottom:25px;justify-content:center;flex-wrap:wrap}
+    .filter-btn{padding:8px 16px;border:2px solid rgba(124,91,166,.3);background:rgba(255,255,255,.8);color:#7c5ba6;border-radius:20px;cursor:pointer;transition:.2s;font-weight:500;text-transform:capitalize}
+    .filter-btn.active{background:linear-gradient(135deg,#a29bfe,#6c5ce7);color:#fff;border-color:transparent}
+    .filter-btn:hover{transform:translateY(-1px)}
+
+    .items-container{display:flex;flex-direction:column;gap:15px}
+    .list-item{background:rgba(255,255,255,.9);border-radius:20px;padding:20px;border:2px solid transparent;transition:.3s;display:flex;align-items:center;gap:15px;position:relative;overflow:hidden}
+    .list-item::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transition:left .5s}
+    .list-item:hover::before{left:100%}
+    .list-item:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.1);border-color:rgba(255,182,193,.5)}
+    .list-item.completed{background:linear-gradient(135deg,#d1f2eb,#a7f3d0);opacity:.88}
+
+    .checkbox{width:30px;height:30px;border-radius:50%;border:3px solid #ddd;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;flex-shrink:0}
+    .checkbox.completed{background:linear-gradient(135deg,#00b894,#00cec9);border-color:#00b894;color:#fff}
+    .checkbox:hover{transform:scale(1.1)}
+
+    .item-content{flex:1}
+    .item-text{font-size:16px;color:#2d3436;margin-bottom:5px;transition:.2s}
+    .item-text.completed{text-decoration:line-through;color:#636e72}
+    .item-meta{display:flex;align-items:center;gap:8px;font-size:12px;color:#636e72}
+    .category-tag{padding:4px 10px;border-radius:12px;font-weight:500;text-transform:capitalize}
+    .category-tag.place{background:linear-gradient(135deg,#e3f2fd,#bbdefb);color:#1976d2}
+    .category-tag.experience{background:linear-gradient(135deg,#fce4ec,#f8bbd9);color:#c2185b}
+
+    .icon-btn{width:35px;height:35px;border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0}
+    .edit-btn{background:linear-gradient(135deg,#ffb142,#ff793f);color:#fff}
+    .edit-btn:hover{transform:scale(1.1);box-shadow:0 5px 15px rgba(255,121,63,.3)}
+    .delete-btn{background:linear-gradient(135deg,#ff7675,#d63031);color:#fff}
+    .delete-btn:hover{transform:scale(1.1);box-shadow:0 5px 15px rgba(214,48,49,.3)}
+
+    .edit-row{display:flex;gap:10px;align-items:center}
+    .edit-input{flex:1;padding:12px 16px;border:2px solid rgba(124,91,166,.25);border-radius:12px;font-size:15px}
+    .save-btn{background:linear-gradient(135deg,#00b894,#00cec9);color:#fff}
+    .cancel-btn{background:linear-gradient(135deg,#a29bfe,#6c5ce7);color:#fff}
+
+    .empty-state{text-align:center;padding:60px 20px;color:#7d5ba6}
+    .empty-state h3{font-size:1.5em;margin-bottom:10px}
+
+    .celebration{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:50px;pointer-events:none;z-index:1000;animation:celebrate 2s ease-out}
+    @keyframes celebrate{
+      0%{opacity:0;transform:translate(-50%,-50%) scale(0)}
+      50%{opacity:1;transform:translate(-50%,-50%) scale(1.2)}
+      100%{opacity:0;transform:translate(-50%,-50%) scale(1)}
+    }
+
+    /* Music banner (shows only if autoplay is blocked) */
+    .music-banner{
+      position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+      background:#fff;border:1px solid rgba(0,0,0,.08);box-shadow:0 10px 30px rgba(0,0,0,.12);
+      padding:10px 16px;border-radius:999px;display:flex;align-items:center;gap:10px;z-index:2000
+    }
+    .music-banner button{border:none;border-radius:999px;padding:8px 14px;cursor:pointer}
+    .music-banner .play{background:linear-gradient(135deg,#ff6b9d,#6c5ce7);color:#fff}
+    .music-banner .close{background:#eee;color:#444}
+
+    @media (max-width:600px){
+      .container{padding:10px}
+      .main-card{padding:20px}
+      .header h1{font-size:2em}
+      .input-section{flex-direction:column}
+      .input-field,.add-btn{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <!-- floating petals -->
+  <div class="flower">🌸</div><div class="flower">🌹</div><div class="flower">🌺</div>
+  <div class="flower">🌻</div><div class="flower">🌷</div><div class="flower">🌼</div>
+  <div class="flower">🌻</div><div class="flower">🌹</div><div class="flower">🌸</div>
+
+  <!-- background music -->
+  <!-- Put a file named romance.mp3 in the same folder (or change the src to your GitHub RAW mp3 URL) -->
+  <audio id="bgm" src="romance.mp3" preload="auto" loop playsinline></audio>
+  <div id="musicBanner" class="music-banner" style="display:none">
+    <span>💖 Romantic music</span>
+    <button class="play" id="musicPlayBtn">Play</button>
+    <button class="close" id="musicCloseBtn">Close</button>
+  </div>
+
+  <div class="container">
+    <div class="main-card">
+      <div class="header">
+        <h1>Her Dream Garden 🌹✨</h1>
+        <p>A beautiful collection of places and moments for just the two of us</p>
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-text" id="progressText">0 of 0 dreams completed 🌺</div>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+
+      <div class="add-section">
+        <div class="category-buttons">
+          <button class="category-btn place active" data-category="place">📍 Beautiful Place</button>
+          <button class="category-btn experience" data-category="experience">💕 Sweet Experience</button>
+        </div>
+        <div class="input-section">
+          <input type="text" class="input-field" id="newItemInput" placeholder="Add a place she dreams of visiting... 🌍"/>
+          <button class="add-btn" id="addBtn">➕ Add Dream</button>
+        </div>
+      </div>
+
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">All Dreams</button>
+        <button class="filter-btn" data-filter="pending">Still Dreaming</button>
+        <button class="filter-btn" data-filter="completed">Achieved 🎉</button>
+        <button class="filter-btn" data-filter="place">Places</button>
+        <button class="filter-btn" data-filter="experience">Experiences</button>
+      </div>
+
+      <div class="items-container" id="itemsContainer">
+        <div class="empty-state">
+          <h3>🌸 Your dream garden awaits! 🌸</h3>
+          <p>Add the first dream destination or experience to start blooming</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Music autoplay with graceful fallback ---
+    (function setupMusic(){
+      const audio = document.getElementById('bgm');
+      const banner = document.getElementById('musicBanner');
+      const playBtn = document.getElementById('musicPlayBtn');
+      const closeBtn = document.getElementById('musicCloseBtn');
+
+      function tryPlay(){
+        if (!audio) return;
+        audio.volume = 0.7;
+        // Some browsers allow muted autoplay; briefly mute then unmute:
+        const wasMuted = audio.muted;
+        audio.muted = true;
+        audio.play().then(()=>{
+          setTimeout(()=>{ audio.muted = wasMuted; }, 50);
+        }).catch(()=>{
+          banner.style.display = 'flex';
+        });
+      }
+      window.addEventListener('load', tryPlay, { once:true });
+      playBtn.addEventListener('click', ()=>{ audio.muted=false; audio.play(); banner.style.display='none'; });
+      closeBtn.addEventListener('click', ()=>{ banner.style.display='none'; });
+    })();
+
+    // --- App state ---
+    var dreamGarden = {
+      items: [],
+      currentCategory: 'place',
+      currentFilter: 'all',
+      editingId: null,
+
+      init: function(){
+        this.loadItems();
+        this.initializeEventListeners();
+        this.render();
+      },
+
+      // Load from localStorage; on first load, seed with your custom checklist
+      loadItems: function(){
+        const saved = localStorage.getItem('dreamGardenItems');
+        if (saved){
+          this.items = JSON.parse(saved);
+        } else {
+          // Your edited checklist (pre-filled)
+          this.items = [
+            { id: 1, text: "Go to Thewatta Church ⛪", completed: false, category: "place" },
+            { id: 2, text: "Watch movies in 9/8 studio 🎬", completed: false, category: "experience" },
+            { id: 3, text: "Go to a viewpoint — just the two of us 🌄", completed: false, category: "place" }
+          ];
+          this.saveItems();
+        }
+      },
+
+      saveItems: function(){
+        localStorage.setItem('dreamGardenItems', JSON.stringify(this.items));
+      },
+
+      initializeEventListeners: function(){
+        var self = this;
+
+        // category switch
+        document.querySelectorAll('.category-btn').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('active'));
+            this.classList.add('active');
+            self.currentCategory = this.getAttribute('data-category');
+            self.updatePlaceholder();
+          });
+        });
+
+        // add new item
+        document.getElementById('addBtn').addEventListener('click', function(){ self.addItem(); });
+        document.getElementById('newItemInput').addEventListener('keydown', function(e){
+          if (e.key === 'Enter') self.addItem();
+        });
+
+        // filters
+        document.querySelectorAll('.filter-btn').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+            this.classList.add('active');
+            self.currentFilter = this.getAttribute('data-filter');
+            self.render();
+          });
+        });
+      },
+
+      updatePlaceholder: function(){
+        var input = document.getElementById('newItemInput');
+        input.placeholder = (this.currentCategory === 'place')
+          ? "Add a place she dreams of visiting... 🌍"
+          : "Add an experience she wants to treasure... 💕";
+      },
+
+      addItem: function(){
+        var input = document.getElementById('newItemInput');
+        var text = input.value.trim();
+        if (!text) return;
+
+        var maxId = this.items.reduce((m,it)=>Math.max(m,it.id),0);
+        this.items.push({ id: maxId+1, text: text, completed: false, category: this.currentCategory });
+        input.value = '';
+        this.saveItems();
+        this.render();
+        this.showCelebration('🌱');
+      },
+
+      startEdit: function(id){
+        this.editingId = id;
+        this.render();
+      },
+
+      saveEdit: function(id){
+        var input = document.getElementById('editInput_'+id);
+        if (!input) return this.cancelEdit();
+        var text = input.value.trim();
+        if (!text) return; // keep old text if empty
+        var item = this.items.find(it => it.id === id);
+        if (item){ item.text = text; this.saveItems(); }
+        this.editingId = null;
+        this.render();
+      },
+
+      cancelEdit: function(){
+        this.editingId = null;
+        this.render();
+      },
+
+      toggleItem: function(id){
+        var item = this.items.find(it => it.id === id);
+        if (!item) return;
+        item.completed = !item.completed;
+        this.saveItems();
+        this.render();
+        if (item.completed){
+          var emojis = ['🎉','🌸','✨','💖','🌺'];
+          this.showCelebration(emojis[Math.floor(Math.random()*emojis.length)]);
+        }
+      },
+
+      removeItem: function(id){
+        this.items = this.items.filter(it => it.id !== id);
+        this.saveItems();
+        this.render();
+      },
+
+      getFilteredItems: function(){
+        var f = this.currentFilter;
+        return this.items.filter(function(item){
+          if (f === 'all') return true;
+          if (f === 'completed') return item.completed;
+          if (f === 'pending') return !item.completed;
+          return item.category === f;
+        });
+      },
+
+      showCelebration: function(emoji){
+        var el = document.createElement('div');
+        el.className = 'celebration';
+        el.textContent = emoji;
+        document.body.appendChild(el);
+        setTimeout(()=>document.body.removeChild(el), 2000);
+      },
+
+      updateProgress: function(){
+        var completed = this.items.filter(i=>i.completed).length;
+        var total = this.items.length;
+        var pct = total ? (completed/total)*100 : 0;
+        document.getElementById('progressText').textContent =
+          completed + " of " + total + " dreams completed " + (completed>0 ? "🌺" : "🌱");
+        document.getElementById('progressBar').style.width = pct + "%";
+      },
+
+      renderItems: function(){
+        var container = document.getElementById('itemsContainer');
+        var list = this.getFilteredItems();
+
+        if (!list.length){
+          container.innerHTML =
+            '<div class="empty-state"><h3>' +
+            (this.currentFilter==='all' ? '🌸 Your dream garden awaits! 🌸' : 'No '+this.currentFilter+' dreams found') +
+            '</h3><p>' +
+            (this.currentFilter==='all' ? 'Add the first dream destination or experience to start blooming' :
+              'Try adding some '+this.currentFilter+' items or check other filters') +
+            '</p></div>';
+          return;
+        }
+
+        var html = '';
+        for (var i=0;i<list.length;i++){
+          var item = list[i];
+          var editing = (item.id === this.editingId);
+
+          html += '<div class="list-item '+(item.completed?'completed':'')+'">' +
+                    '<div class="checkbox '+(item.completed?'completed':'')+'" onclick="dreamGarden.toggleItem('+item.id+')">'+
+                      (item.completed ? '✓' : '') +
+                    '</div>' +
+                    '<div class="item-content">';
+
+          if (editing){
+            html += '<div class="edit-row">' +
+                      '<input id="editInput_'+item.id+'" class="edit-input" type="text" value="'+this.escapeHtml(item.text)+'" />' +
+                      '<button class="icon-btn save-btn" title="Save" onclick="dreamGarden.saveEdit('+item.id+')">💾</button>' +
+                      '<button class="icon-btn cancel-btn" title="Cancel" onclick="dreamGarden.cancelEdit()">↩</button>' +
+                    '</div>';
+          } else {
+            html += '<div class="item-text '+(item.completed?'completed':'')+'">'+ item.text +'</div>' +
+                    '<div class="item-meta">' +
+                      '<span class="category-tag '+item.category+'">' + (item.category==='place'?'📍':'💕') + ' ' + item.category + '</span>' +
+                    '</div>';
+          }
+
+          html +=   '</div>' +
+                    '<button class="icon-btn edit-btn" title="Edit" onclick="dreamGarden.startEdit('+item.id+')">✏️</button>' +
+                    '<button class="icon-btn delete-btn" title="Delete" onclick="dreamGarden.removeItem('+item.id+')">×</button>' +
+                  '</div>';
+        }
+        container.innerHTML = html;
+      },
+
+      escapeHtml: function(s){
+        return s.replace(/[&<>"']/g, (c)=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+      },
+
+      render: function(){
+        this.updateProgress();
+        this.renderItems();
+      }
+    };
+
+    dreamGarden.init();
+  </script>
+</body>
+</html>
