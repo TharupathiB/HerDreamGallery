@@ -1,0 +1,19 @@
+Hi TharupathiB,
+
+I love the HerDreamGallery project! Can you add a feature to export the checklist?
+
+Thanks!
+```
+
+#### **Issue #2:**
+- **Title:** `Bug in Shit-Me checklist display`
+- **Body:**
+```
+The TharupathiB checklist items are not displaying correctly on mobile.
+
+Steps to reproduce:
+1. Open HerDreamGallery on mobile
+2. Check items
+3. Items disappear
+
+Environment: iOS Safari
